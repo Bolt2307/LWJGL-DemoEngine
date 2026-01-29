@@ -1,5 +1,7 @@
 package testproj;
 
+import java.util.Vector;
+
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
@@ -32,5 +34,12 @@ public class Window {
     public void stop () {
         GLFW.glfwDestroyWindow(window);
         GLFW.glfwTerminate();
+    }
+
+    public Vector2 getDimensions () {
+        int[] width = new int[1];
+        int[] height = new int[1];
+        GLFW.glfwGetWindowSize(window, width, height);
+        return new Vector2(width[0], height[0]);
     }
 }

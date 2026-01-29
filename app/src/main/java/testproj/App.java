@@ -7,62 +7,36 @@ import java.io.*;
 
 public class App {
     private static Window window;
-    private static int vao;
-    private static String vertexPath = "app\\\\src\\\\main\\\\resources\\\\shaders\\\\Vertex.glsl";
-    private static String fragmentPath = "app\\\\src\\\\main\\\\resources\\\\shaders\\\\Fragment.glsl";
+    private static Camera camera;
 
     public static void init () {
         Shape.init();
+        window = new Window();
+        camera = new Camera(new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1.0f, window);
+    }
 
-        vao = GL30.glGenVertexArrays();
-        GL30.glBindVertexArray(vao);
+    public static void renderFace (Vector3[] vertices, Color3 color) {
+        GL30.glBegin(GL30.GL_POLYGON);
+        GL30.glColor3f(color.r, color.g, color.b);
 
-        int coordVBO = GL30.glGenVertexArrays();
-        GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, coordVBO);
-        GL30.glBufferData(GL30.GL_ARRAY_BUFFER, Shape.getShapes().get(0).vertices.capacity(), GL30.GL_STATIC_DRAW);
-        GL30.glVertexAttribPointer(0, 2, GL30.GL_DOUBLE, false, 0, 0);
-        GL30.glEnableVertexAttribArray(0);
+        for (Vector3 vertex : vertices) {
+            Vector2 projected = vertex.projectToCamera(camera);
+            GL30.glVertex2f(projected.x, projected.y);
+        }
 
-        int colorVBO = GL30.glGenVertexArrays();
-        GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, colorVBO);
-        GL30.glBufferData(GL30.GL_ARRAY_BUFFER, Shape.getShapes().get(0).colors.capacity(), GL30.GL_STATIC_DRAW);
-        GL30.glVertexAttribPointer(1, 3, GL30.GL_DOUBLE, false, 0, 0);
-        GL30.glEnableVertexAttribArray(1);
-
-        int indicesVBO = GL30.glGenBuffers();
-        GL30.glBindBuffer(GL30.GL_ELEMENT_ARRAY_BUFFER, indicesVBO);
-        GL30.glBufferData(GL30.GL_ELEMENT_ARRAY_BUFFER, Shape.getShapes().get(0).indices.capacity(), GL30.GL_STATIC_DRAW);
-        GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, 0);
-		GL30.glBindVertexArray(0);
-
-        int vertexShader = Helper.loadShader(new File (vertexPath), GL30.GL_VERTEX_SHADER);
-        int fragmentShader = Helper.loadShader(new File (fragmentPath), GL30.GL_FRAGMENT_SHADER);
-        int program = GL30.glCreateProgram();
-
-        GL30.glAttachShader(program, vertexShader);
-        GL30.glAttachShader(program, fragmentShader);
-        GL30.glLinkProgram(program);
-        GL30.glValidateProgram(program);
-
-        int error = GL30.glGetError();
-		while(error != 0) {
-			System.out.println("OpenGL Error: " + error);
-			error = GL30.glGetError();
-		}
-
-        GL30.glUseProgram(program);
+        GL30.glEnd();
     }
 
     public static void loop () {
         GL30.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        GL30.glBindVertexArray(vao);
-        GL30.glDrawElements(GL30.GL_TRIANGLES, Shape.getShapes().get(0).vertexCount, GL30.GL_UNSIGNED_INT, 0);
-        GL30.glBindVertexArray(0);
         GL30.glClear(GL11.GL_COLOR_BUFFER_BIT);
+
+        for (Shape shape : Shape.getShapes()) {
+            renderFace(shape.vertices, shape.color);
+        }
     }
 
     public static void main (String[] args) {
-        window = new Window();
         init();
 
         while (!GLFW.glfwWindowShouldClose(window.getWindow())) {
