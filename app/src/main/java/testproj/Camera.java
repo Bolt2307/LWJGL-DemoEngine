@@ -1,7 +1,5 @@
 package testproj;
 
-import org.lwjgl.glfw.*;
-
 public class Camera {
     public Vector3 position;
     public Vector3 rotation;

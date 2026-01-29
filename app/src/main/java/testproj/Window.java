@@ -1,7 +1,5 @@
 package testproj;
 
-import java.util.Vector;
-
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
