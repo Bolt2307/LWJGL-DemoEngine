@@ -7,14 +7,15 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
 public class App {
-    private static final Vector3 speed = new Vector3(200.0f, 200.0f, 200.0f);
     private static final ArrayList<Face> renderQueue = new ArrayList<>();
     private static final float SENSITIVITY = 0.1f;
+    private static Vector3 speed = new Vector3(200.0f, 200.0f, 200.0f);
     private static Window window;
     private static Camera camera;
     private static Scene mainScene;
     private static float debounce = 0.0f;
     private static float delta = 0.0f;
+    private static float runTime = 0.0f;
     private static long lastTick = System.currentTimeMillis();
 
     public static void init () {
@@ -125,6 +126,14 @@ public class App {
             velocity.y += speed.y * delta;
         }
 
+        if (GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS) {
+            speed = new Vector3(600.0f, 600.0f, 600.0f);
+            camera.focalLength = 37.0f;
+        } else {
+            speed = new Vector3(200.0f, 200.0f, 200.0f);
+            camera.focalLength = 40.0f;
+        }
+
         if ((GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) && (debounce <= 0.0f)) {
             window.lockMouse();
             debounce = 0.2f;
@@ -136,6 +145,7 @@ public class App {
     public static void loop () {
         delta = (System.currentTimeMillis() - lastTick)/1000.0f;
         lastTick = System.currentTimeMillis();
+        runTime += delta;
 
         GL30.glClearColor(mainScene.backgroundColor.r, mainScene.backgroundColor.g, mainScene.backgroundColor.b, 1.0f);
         GL30.glClear(GL11.GL_COLOR_BUFFER_BIT);

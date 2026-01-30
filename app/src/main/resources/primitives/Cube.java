@@ -2,8 +2,8 @@ package primitives;
 
 import testproj.*;
 
-public class Square extends testproj.Object {
-    public Square (String name, Vector3 position, Vector3 rotation, Vector3 scale, Color3[] colors) {
+public class Cube extends testproj.Object {
+    public Cube (String name, Vector3 position, Vector3 rotation, Vector3 scale, Color3[] colors) {
         super(
             name,
             position,
