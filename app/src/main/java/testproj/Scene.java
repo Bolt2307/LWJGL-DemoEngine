@@ -1,7 +1,7 @@
 package testproj;
 
-import primitives.*;
 import java.util.ArrayList;
+import primitives.*;
 
 public class Scene {
     public Color3 backgroundColor;
@@ -9,51 +9,22 @@ public class Scene {
 
     public Scene (Color3 backgroundColor) {
         this.backgroundColor = backgroundColor;
-        this.objects = new ArrayList<Object>();
+        this.objects = new ArrayList<>();
     }
 
     public void init () {
-        this.objects.add(new Object(
-            new Vector3(0.0f, 0.0f, 200.0f),
-            new Vector3(0.0f, 0.785f, 0.0f),
-            new Vector3(10.0f, 50.0f, 50.0f),
-            new Face[] {
-                new Face(new Vector3[] {
-                    new Vector3(-1.0f, -1.0f, -1.0f), // Front Face
-                    new Vector3(-1.0f, 1.0f, -1.0f),
-                    new Vector3(1.0f, 1.0f, -1.0f),
-                    new Vector3(1.0f, -1.0f, -1.0f),
-                }, new Color3(1.0f, 0.0f, 0.0f)),
-                new Face(new Vector3[] {
-                    new Vector3(-1.0f, -1.0f, 1.0f), // Back Face
-                    new Vector3(-1.0f, 1.0f, 1.0f),
-                    new Vector3(1.0f, 1.0f, 1.0f),
-                    new Vector3(1.0f, -1.0f, 1.0f),
-                }, new Color3(1.0f, 0.0f, 0.0f)),
-                new Face(new Vector3[] {
-                    new Vector3(-1.0f, -1.0f, -1.0f), // Left Face
-                    new Vector3(-1.0f, 1.0f, -1.0f),
-                    new Vector3(-1.0f, 1.0f, 1.0f),
-                    new Vector3(-1.0f, -1.0f, 1.0f),
-                }, new Color3(0.0f, 1.0f, 0.0f)),
-                new Face(new Vector3[] {
-                    new Vector3(1.0f, -1.0f, -1.0f), // Right Face
-                    new Vector3(1.0f, 1.0f, -1.0f),
-                    new Vector3(1.0f, 1.0f, 1.0f),
-                    new Vector3(1.0f, -1.0f, 1.0f),
-                }, new Color3(0.0f, 1.0f, 0.0f)),
-                new Face(new Vector3[] {
-                    new Vector3(-1.0f, 1.0f, -1.0f), // Top Face
-                    new Vector3(-1.0f, 1.0f, 1.0f),
-                    new Vector3(1.0f, 1.0f, 1.0f),
-                    new Vector3(1.0f, 1.0f, -1.0f)
-                }, new Color3(0.0f, 0.0f, 1.0f)),
-                new Face(new Vector3[] {
-                    new Vector3(-1.0f, -1.0f, -1.0f), // Bottom Face
-                    new Vector3(-1.0f, -1.0f, 1.0f),
-                    new Vector3(1.0f, -1.0f, 1.0f),
-                    new Vector3(1.0f, -1.0f, -1.0f)
-                }, new Color3(0.0f, 0.0f, 1.0f))
+        this.objects.add(new Square(
+            "Square",
+            new Vector3(0.0f, 0.0f, 100.0f),
+            new Vector3(0.0f, 45.0f, 0.0f),
+            new Vector3(50.0f, 10.0f, 50.0f),
+            new Color3[] {
+                Color3.RED,
+                Color3.RED,
+                Color3.GREEN,
+                Color3.GREEN,
+                Color3.BLUE,
+                Color3.BLUE
             }
         ));
     }

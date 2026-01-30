@@ -1,6 +1,10 @@
 package testproj;
 
 public class Color3 {
+    public static final Color3 RED = new Color3(1.0f, 0.0f, 0.0f);
+    public static final Color3 GREEN = new Color3(0.0f, 1.0f, 0.0f);
+    public static final Color3 BLUE = new Color3(0.0f, 0.0f, 1.0f);
+
     public float r, g, b;
 
     public Color3 (float r, float g, float b) {

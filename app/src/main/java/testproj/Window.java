@@ -5,6 +5,7 @@ import org.lwjgl.opengl.*;
 
 public class Window {
     private long window;
+    private boolean mouseLocked = false;
 
     public Window() {
         if (!GLFW.glfwInit()) {
@@ -16,6 +17,7 @@ public class Window {
         GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_TRUE);
 
         window = GLFW.glfwCreateWindow(800, 600, "Test", 0, 0);
+        
         if (window == 0) {
             throw new IllegalStateException("Failed to create window");
         }
@@ -27,6 +29,24 @@ public class Window {
 
     public long getWindow () {
         return window;
+    }
+
+    public void lockMouse () {
+        lockMouse(!mouseLocked);
+    }
+
+    public void lockMouse (boolean locked) {
+        if (locked) {
+            GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
+        } else {
+            GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+        }
+
+        mouseLocked = locked;
+    }
+
+    public boolean isMouseLocked () {
+        return mouseLocked;
     }
 
     public void stop () {

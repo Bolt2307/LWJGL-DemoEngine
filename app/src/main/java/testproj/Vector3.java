@@ -15,6 +15,14 @@ public class Vector3 {
         this.z = z;
     }
 
+    public Vector3 toRadians () {
+        return new Vector3(
+            (float)(this.x*Math.PI/180),
+            (float)(this.y*Math.PI/180),
+            (float)(this.z*Math.PI/180)
+        );
+    }
+
     public Vector3 add (Vector3 other) {
         return new Vector3(this.x + other.x, this.y + other.y, this.z + other.z);
     }
@@ -22,28 +30,40 @@ public class Vector3 {
     public Vector3 substract (Vector3 other) {
         return new Vector3(this.x - other.x, this.y - other.y, this.z - other.z);
     }
+
+    public Vector3 negate () {
+        return new Vector3(-this.x, -this.y, -this.z);
+    }
     
     public Vector3 multiply (Vector3 other) {
         return new Vector3(this.x * other.x, this.y * other.y, this.z * other.z);
     }
 
+    public Vector3 multiply (float other) {
+        return new Vector3(this.x * other, this.y * other, this.z * other);
+    }
+
     public Vector3 rotate (Vector3 rotation) {
-        float x = this.x;
-        float y = this.y * (float)Math.cos(rotation.x) - this.z * (float)Math.sin(rotation.x);
-        float z = this.y * (float)Math.sin(rotation.x) + this.z * (float)Math.cos(rotation.x);
+        Vector3 copy = this.copy();
 
-        x = x * (float)Math.cos(rotation.y) + z * (float)Math.sin(rotation.y);
-        z = -x * (float)Math.sin(rotation.y) + z * (float)Math.cos(rotation.y);
+        Vector2 yz = new Vector2(copy.y, copy.z).rotate(rotation.x);
+        copy.y = yz.x;
+        copy.z = yz.y;
 
-        x = x * (float)Math.cos(rotation.z) - y * (float)Math.sin(rotation.z);
-        y = x * (float)Math.sin(rotation.z) + y * (float)Math.cos(rotation.z);
+        Vector2 xz = new Vector2(copy.x, copy.z).rotate(rotation.y);
+        copy.x = xz.x;
+        copy.z = xz.y;
 
-        return new Vector3(x, y, z);
+        Vector2 xy = new Vector2(copy.x, copy.y).rotate(rotation.z);
+        copy.x = xy.x;
+        copy.y = xy.y;
+
+        return copy;
     }
 
     public Vector3 projectToCamera (Camera camera) {
-        float projectedX = ((this.x / (this.z/15)) * camera.fov) / camera.dimensions.x;
-        float projectedY = ((this.y / (this.z/15)) * camera.fov) / camera.dimensions.y;
+        float projectedX = ((this.x / (this.z/15)) * camera.focalLength) / camera.dimensions.x;
+        float projectedY = ((this.y / (this.z/15)) * camera.focalLength) / camera.dimensions.y;
 
         return new Vector3(projectedX, projectedY, this.z);
     }
@@ -52,6 +72,7 @@ public class Vector3 {
         return new Vector3(this.x, this.y, this.z);
     }
 
+    @Override
     public String toString () {
         return "Vector3: (" + this.x + ", " + this.y + ", " + this.z + ")";
     }
