@@ -56,7 +56,7 @@ public class App {
             Vector3 scaled = face.vertices[i].multiply(scale);
             Vector3 rotated = scaled.rotate(rotation.toRadians());
             Vector3 translated = rotated.add(offset);
-            Vector3 relative = translated.substract(camera.position);
+            Vector3 relative = translated.subtract(camera.position);
             Vector3 spun = new Vector3(relative.dot(camera.right), relative.dot(camera.up), relative.dot(camera.forward));
             Vector3 projected = spun.projectToCamera(camera);
 
@@ -83,17 +83,26 @@ public class App {
             debounce = 0.2f;
         }
 
+        if ((GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_Q) == GLFW.GLFW_PRESS) && (debounce <= 0.0f)) { // Debug info
+            Physics.paused = !Physics.paused;
+            debounce = 0.2f;
+        }
+
         if ((GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_E) == GLFW.GLFW_PRESS) && (debounce <= 0.0f)) { // Debug info
             System.out.println(camera);
             System.out.println("Forward: " + camera.forward);
             System.out.println("Right: " + camera.right);
             System.out.println("Up: " + camera.up);
+            System.out.println("Position: " + player.getPosition());
+
+            System.out.println("Bean velocity: " + mainScene.getObjectByName("Bean").rigidBody.velocity);
+            System.out.println("Bean acceleration: " + mainScene.getObjectByName("Bean").rigidBody.acceleration);
             debounce = 0.2f;
         }
 
         mainScene.getObjectByName("Cube1").rotation = new Vector3((30.0f * runTime), (45.0f * runTime), (15.0f * runTime));
         mainScene.getObjectByName("Plumbob").rotation = new Vector3(0.0f, (float)(45.0f * runTime), 0.0f);
-        mainScene.getObjectByName("Plumbob").position = new Vector3(100.0f, (float)(100.0f*Math.sin(runTime*2)), 600.0f);
+        mainScene.getObjectByName("Plumbob").position = new Vector3(10.0f, (float)(10.0f*Math.sin(runTime*2)), 60.0f);
     }
 
     public static void loop () {
@@ -115,6 +124,7 @@ public class App {
         renderFrame();
         update(delta);
         player.update(delta);
+        Physics.update(delta);
 
         GLFW.glfwPollEvents();
         GLFW.glfwSwapBuffers(window.getWindow());

@@ -41,7 +41,7 @@ public class Vector3 {
         return new Vector3(this.x + other.x, this.y + other.y, this.z + other.z);
     }
 
-    public Vector3 substract (Vector3 other) {
+    public Vector3 subtract (Vector3 other) {
         return new Vector3(this.x - other.x, this.y - other.y, this.z - other.z);
     }
 
@@ -55,6 +55,14 @@ public class Vector3 {
 
     public Vector3 multiply (float other) {
         return new Vector3(this.x * other, this.y * other, this.z * other);
+    }
+
+    public Vector3 divide (Vector3 other) {
+        return new Vector3(this.x / other.x, this.y / other.y, this.z / other.z);
+    }
+
+    public Vector3 divide (float other) {
+        return new Vector3(this.x / other, this.y / other, this.z / other);
     }
 
     public Vector3 rotate (Vector3 rotation) {

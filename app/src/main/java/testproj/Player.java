@@ -2,7 +2,7 @@ package testproj;
 
 import org.lwjgl.glfw.GLFW;
 
-import primitives.untextured.*;
+import primitives.untextured.Cube;
 
 public class Player {
     public Object3D model;
@@ -14,7 +14,7 @@ public class Player {
     public Player (Object3D model, Camera camera) {
         this.model = model;
         this.camera = camera;
-        this.speed = new Vector3(200.0f, 200.0f, 200.0f);
+        this.speed = new Vector3(20.0f, 20.0f, 20.0f);
         this.position = model.position;
         camera.position = model.position;
         initMouse();
@@ -24,7 +24,6 @@ public class Player {
         this.model = new Cube("Character", position, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(1.0f, 1.0f, 1.0f), new Color3[]{Color3.RED, Color3.RED, Color3.RED, Color3.RED, Color3.RED, Color3.RED}, false);
         this.model.visible = false;
         this.camera = camera;
-        this.speed = new Vector3(200.0f, 200.0f, 200.0f);
         this.position = position;
         camera.position = position;
         initMouse();
@@ -58,7 +57,7 @@ public class Player {
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_S) == GLFW.GLFW_PRESS) {
-            velocity = velocity.substract(camera.forward.multiply((float)(speed.z * delta)));
+            velocity = velocity.subtract(camera.forward.multiply((float)(speed.z * delta)));
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_A) == GLFW.GLFW_PRESS) {
@@ -66,7 +65,7 @@ public class Player {
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_D) == GLFW.GLFW_PRESS) {
-            velocity = velocity.substract(camera.right.multiply((float)(speed.x * delta)));
+            velocity = velocity.subtract(camera.right.multiply((float)(speed.x * delta)));
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_LEFT_CONTROL) == GLFW.GLFW_PRESS) {
@@ -78,10 +77,10 @@ public class Player {
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS) {
-            speed = new Vector3(600.0f, 600.0f, 600.0f);
-            camera.fov = 37.0f;
+            speed = new Vector3(60.0f, 60.0f, 60.0f);
+            camera.fov = 38.0f;
         } else {
-            speed = new Vector3(200.0f, 200.0f, 200.0f);
+            speed = new Vector3(20.0f, 20.0f, 20.0f);
             camera.fov = 40.0f;
         }
 

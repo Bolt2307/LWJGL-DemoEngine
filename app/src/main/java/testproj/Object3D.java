@@ -1,6 +1,8 @@
 package testproj;
 
 public class Object3D {
+    public RigidBody rigidBody;
+
     public Vector3 position;
     public Vector3 rotation;
     public Vector3 scale;
