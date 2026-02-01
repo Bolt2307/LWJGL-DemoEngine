@@ -1,7 +1,9 @@
 package testproj;
 
 import java.util.ArrayList;
-import primitives.*;
+
+import primitives.Cube;
+import primitives.Wedge;
 
 public class Scene {
     public Color3 backgroundColor;
@@ -35,10 +37,10 @@ public class Scene {
             new Vector3(100.0f, 100.0f, 100.0f),
             new Color3[] {
                 Color3.RED,
-                Color3.GREEN,
-                Color3.BLUE,
                 Color3.RED,
                 Color3.GREEN,
+                Color3.GREEN,
+                Color3.BLUE,
                 Color3.BLUE
             }
         ));
