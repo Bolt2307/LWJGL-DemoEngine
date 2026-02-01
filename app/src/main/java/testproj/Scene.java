@@ -3,6 +3,7 @@ package testproj;
 import java.util.ArrayList;
 
 import primitives.Cube;
+import primitives.Sphere;
 import primitives.Wedge;
 
 public class Scene {
@@ -27,7 +28,8 @@ public class Scene {
                 Color3.GREEN,
                 Color3.BLUE,
                 Color3.BLUE
-            }
+            },
+            false
         ));
 
         this.objects.add(new Cube(
@@ -42,7 +44,8 @@ public class Scene {
                 Color3.GREEN,
                 Color3.BLUE,
                 Color3.BLUE
-            }
+            },
+            false
         ));
 
         this.objects.add(new Wedge(
@@ -56,7 +59,28 @@ public class Scene {
                 Color3.GREEN,
                 Color3.GREEN,
                 Color3.BLUE,
-            }
+            },
+            false
+        ));
+
+        this.objects.add(new Sphere(
+            "Ball",
+            new Vector3(0.0f, 25.0f, -200.0f),
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(50.0f, 50.0f, 50.0f),
+            Color3.BLUE,
+            8,
+            false
+        ));
+
+        this.objects.add(new Sphere(
+            "Ball",
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(2000.0f, 2000.0f, 2000.0f),
+            new Color3(0.7f, 0.8f, 1.0f),
+            16,
+            true
         ));
     }
 }

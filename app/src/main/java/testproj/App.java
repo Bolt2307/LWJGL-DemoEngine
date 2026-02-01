@@ -62,7 +62,7 @@ public class App {
 
     public static void renderFace (Vector3[] vertices, Color3 color) {
         GL11.glBegin(GL11.GL_POLYGON);
-        GL11.glColor3f(color.r, color.g, color.b);
+        GL11.glColor4f(color.r, color.g, color.b, color.a);
 
         for (Vector3 vertex : vertices) {
             GL11.glVertex2f(vertex.x, vertex.y);

@@ -1,9 +1,11 @@
 package primitives;
 
-import testproj.*;
+import testproj.Color3;
+import testproj.Face;
+import testproj.Vector3;
 
 public class Cube extends testproj.Object {
-    public Cube (String name, Vector3 position, Vector3 rotation, Vector3 scale, Color3[] colors) {
+    public Cube (String name, Vector3 position, Vector3 rotation, Vector3 scale, Color3[] colors, boolean invertedMesh) {
         super(
             name,
             position,
@@ -46,7 +48,8 @@ public class Cube extends testproj.Object {
                     new Vector3(1.0f, -1.0f, 1.0f),
                     new Vector3(1.0f, -1.0f, -1.0f)
                 }, colors[5])
-            }
+            },
+            invertedMesh
         );
     }
 }
