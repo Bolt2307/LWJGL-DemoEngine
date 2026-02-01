@@ -1,4 +1,4 @@
-package primitives;
+package primitives.untextured;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ import testproj.Color3;
 import testproj.Face;
 import testproj.Vector3;
 
-public class Sphere extends testproj.Object {
+public class Sphere extends testproj.Object3D {
     public Sphere(String name, Vector3 position, Vector3 rotation, Vector3 scale, Color3 color, int resolution, boolean invertedMesh) {
         super(name, position, rotation, scale, generateFaces(color, resolution), invertedMesh);
     }

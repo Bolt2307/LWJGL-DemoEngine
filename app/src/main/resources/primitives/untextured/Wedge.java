@@ -1,10 +1,10 @@
-package primitives;
+package primitives.untextured;
 
 import testproj.Color3;
 import testproj.Face;
 import testproj.Vector3;
 
-public class Wedge extends testproj.Object {
+public class Wedge extends testproj.Object3D {
     public Wedge (String name, Vector3 position, Vector3 rotation, Vector3 scale, Color3[] colors, boolean invertedMesh) {
         super(
             name,

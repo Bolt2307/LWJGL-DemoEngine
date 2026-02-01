@@ -14,4 +14,8 @@ public class Helper {
 
         return area / 2.0f;
     }
+
+    public static int boolToInt (boolean value) {
+        return value ? 1 : -1;
+    }
 }

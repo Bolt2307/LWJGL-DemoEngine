@@ -1,22 +1,22 @@
 package testproj;
 
-public class Object {
+public class Object3D {
     public Vector3 position;
     public Vector3 rotation;
     public Vector3 scale;
     public Face[] faces;
-    public String name = "Object";
+    public String name = "Object3D";
     public boolean invertedMesh = false;
     public boolean visible = true;
     
-    public Object (Vector3 position, Vector3 rotation, Vector3 scale, Face[] faces) {
+    public Object3D (Vector3 position, Vector3 rotation, Vector3 scale, Face[] faces) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
         this.faces = faces;
     }
 
-    public Object (Vector3 position, Vector3 rotation, Vector3 scale, Face[] faces, boolean invertedMesh) {
+    public Object3D (Vector3 position, Vector3 rotation, Vector3 scale, Face[] faces, boolean invertedMesh) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
@@ -24,7 +24,7 @@ public class Object {
         this.invertedMesh = invertedMesh;
     }
 
-    public Object (String name, Vector3 position, Vector3 rotation, Vector3 scale, Face[] faces) {
+    public Object3D (String name, Vector3 position, Vector3 rotation, Vector3 scale, Face[] faces) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
@@ -32,7 +32,7 @@ public class Object {
         this.name = name;
     }
 
-    public Object (String name, Vector3 position, Vector3 rotation, Vector3 scale, Face[] faces, boolean invertedMesh) {
+    public Object3D (String name, Vector3 position, Vector3 rotation, Vector3 scale, Face[] faces, boolean invertedMesh) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
