@@ -25,14 +25,14 @@ public class App {
     }
 
     public static void renderFrame () {
-        renderQueue.sort((a, b) -> {
+        /*renderQueue.sort((a, b) -> {
             int cmp = Float.compare(b.zMax, a.zMax);
             if (cmp != 0) return cmp;
 
             float aAvg = (a.zMin + a.zMax) * 0.5f;
             float bAvg = (b.zMin + b.zMax) * 0.5f;
             return Float.compare(bAvg, aAvg);
-        });
+        });*/
 
         for (Face face : renderQueue) {
             renderFace(face.vertices, face.color);
@@ -42,9 +42,10 @@ public class App {
     }
 
     public static void renderFace (Vector3[] vertices, Color3 color) {
-        GL11.glBegin(GL11.GL_POLYGON);
-        GL11.glDepthFunc(GL11.GL_LEQUAL);
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+        GL11.glLoadIdentity();
         GL11.glColor4f(color.r, color.g, color.b, color.a);
+        GL11.glBegin(GL11.GL_POLYGON);
 
         for (Vector3 vertex : vertices) {
             GL11.glVertex3f(vertex.x, vertex.y, vertex.z/500.0f);
@@ -114,6 +115,7 @@ public class App {
         runTime += delta;
 
         GL11.glClearColor(mainScene.backgroundColor.r, mainScene.backgroundColor.g, mainScene.backgroundColor.b, 1.0f);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
         for (Object3D obj : mainScene.objects) {
