@@ -19,11 +19,7 @@ public class Helper {
         return value ? 1 : -1;
     }
 
-    public static boolean overlap (float x1Min, float x1Max, float x2Min, float x2Max) {
-        return x1Min <= x2Max && x2Min <= x1Max;
-    }
-
-    public static boolean overlap (Vector3 aMin, Vector3 aMax, Vector3 bMin, Vector3 bMax) {
-        return overlap(aMin.x, aMax.x, bMin.x, bMax.x) || overlap(aMin.y, aMax.y, bMin.y, bMax.y) || overlap(aMin.z, aMax.z, bMin.z, bMax.z);
+    public static boolean checkBoxColliders () {
+        return false;   
     }
 }

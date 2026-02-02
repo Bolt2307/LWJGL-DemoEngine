@@ -2,7 +2,6 @@ package testproj;
 
 import java.util.ArrayList;
 
-import primitives.untextured.Capsule;
 import primitives.untextured.Cube;
 import primitives.untextured.Cylinder;
 import primitives.untextured.Sphere;
@@ -33,17 +32,6 @@ public class Scene {
     public void init () {
 
         //========== Create Scene Objects ==========
-        this.objects.add(new Capsule(
-            "Bean",
-            new Vector3(-3.0f, 20.0f, -2.0f),
-            new Vector3(0.0f, 0.0f, 0.0f),
-            new Vector3(2.5f, 2.5f, 2.5f),
-            Color3.GREEN,
-            8,
-            8,
-            1.0f,
-            false
-        ));
 
         this.objects.add(new Cylinder(
             "Can",
@@ -78,6 +66,22 @@ public class Scene {
             new Vector3(-30.0f, 5.0f, 20.0f),
             new Vector3(0.0f, 0.0f, 0.0f),
             new Vector3(10.0f, 10.0f, 10.0f),
+            new Color3[] {
+                Color3.RED,
+                Color3.RED,
+                Color3.GREEN,
+                Color3.GREEN,
+                Color3.BLUE,
+                Color3.BLUE
+            },
+            false
+        ));
+
+        this.objects.add(new Cube(
+            "Cube3",
+            new Vector3(-33.0f, 50.0f, -23.0f),
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(5.0f, 5.0f, 5.0f),
             new Color3[] {
                 Color3.RED,
                 Color3.RED,
@@ -166,7 +170,7 @@ public class Scene {
 
         //========== Create Scene RigidBodies ==========
 
-        new RigidBody(this.getObjectByName("Bean"));
-        new RigidBody(this.getObjectByName("Ground")).anchored = true;
+        new RigidBody(this.getObjectByName("Cube3"), false, true);
+        new RigidBody(this.getObjectByName("Ground"), true, true);
     }
 }

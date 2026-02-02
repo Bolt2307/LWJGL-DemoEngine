@@ -1,7 +1,7 @@
 package testproj;
 
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL;
 
 public class Window {
     private long window;

@@ -23,7 +23,7 @@ public class Vector3 {
         float mag = this.magnitude();
         
         if (mag == 0) {
-            return Vector3.ZERO;
+            return Vector3.ZERO.copy();
         }
 
         return new Vector3(this.x / mag, this.y / mag, this.z / mag);
@@ -35,6 +35,10 @@ public class Vector3 {
             (float)(this.y*Math.PI/180),
             (float)(this.z*Math.PI/180)
         );
+    }
+
+    public float sumInternal () {
+        return this.x + this.y + this.z;
     }
 
     public Vector3 add (Vector3 other) {
@@ -113,6 +117,15 @@ public class Vector3 {
     public Vector3 projectToCamera (Camera camera) {
         float projectedX = ((-this.x / (this.z/camera.fov)) * camera.fov) / camera.window.getDimensions().x;
         float projectedY = ((this.y / (this.z/camera.fov)) * camera.fov) / camera.window.getDimensions().y;
+
+        //float projectedX = (-this.x / ((this.z/camera.fov)*(this.z)) * camera.fov) / camera.window.getDimensions().x;
+        //float projectedY = (this.y / ((this.z/camera.fov)*(this.z)) * camera.fov) / camera.window.getDimensions().y;
+
+        //float projectedX = ((-this.x * (this.z/camera.fov)) * camera.fov) / camera.window.getDimensions().x;
+        //float projectedY = ((this.y * (this.z/camera.fov)) * camera.fov) / camera.window.getDimensions().y;
+
+        //float projectedX = (-this.x*50.0f / camera.window.getDimensions().x);
+        //float projectedY = (this.y*50.0f / camera.window.getDimensions().y);
 
         return new Vector3(projectedX, projectedY, this.z);
     }

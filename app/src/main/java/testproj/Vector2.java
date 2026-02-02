@@ -41,6 +41,20 @@ public class Vector2 {
         return new Vector2(x * scalar, y * scalar);
     }
 
+    public float magnitude () {
+        return (float)Math.sqrt(x * x + y * y);
+    }
+
+    public Vector2 normalize () {
+        float mag = magnitude();
+        if (mag == 0.0f) return new Vector2(0.0f, 0.0f);
+        return new Vector2(x / mag, y / mag);
+    }
+
+    public float dot (Vector2 other) {
+        return x * other.x + y * other.y;
+    }
+
     public Vector2 lerp (Vector2 target, float t) {
         return new Vector2(
             x + (target.x - x) * t,

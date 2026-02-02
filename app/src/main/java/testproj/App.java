@@ -21,15 +21,18 @@ public class App {
         window = new Window();
         window.lockMouse(true);
         camera = new Camera(new Vector3(0.0f, 0.0f, -100.0f), 40.0f, window);
-        player = new Player(Vector3.ZERO, camera);
+        player = new Player(Vector3.ZERO.copy(), camera);
     }
 
     public static void renderFrame () {
-        for (Face face : renderQueue) {
-            face.getZOrderValue();
-        }
+        renderQueue.sort((a, b) -> {
+            int cmp = Float.compare(b.zMax, a.zMax);
+            if (cmp != 0) return cmp;
 
-        renderQueue.sort((a, b) -> Float.compare(b.zOrder, a.zOrder));
+            float aAvg = (a.zMin + a.zMax) * 0.5f;
+            float bAvg = (b.zMin + b.zMax) * 0.5f;
+            return Float.compare(bAvg, aAvg);
+        });
 
         for (Face face : renderQueue) {
             renderFace(face.vertices, face.color);
@@ -40,10 +43,11 @@ public class App {
 
     public static void renderFace (Vector3[] vertices, Color3 color) {
         GL11.glBegin(GL11.GL_POLYGON);
+        GL11.glDepthFunc(GL11.GL_LEQUAL);
         GL11.glColor4f(color.r, color.g, color.b, color.a);
 
         for (Vector3 vertex : vertices) {
-            GL11.glVertex2f(vertex.x, vertex.y);
+            GL11.glVertex3f(vertex.x, vertex.y, vertex.z/500.0f);
         }
 
         GL11.glEnd();
@@ -75,7 +79,6 @@ public class App {
     }
 
     public static void update (double delta) {
-        Vector3 velocity = new Vector3(0, 0, 0);
         debounce -= delta;
 
         if ((GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_ESCAPE) == GLFW.GLFW_PRESS) && (debounce <= 0.0f)) {
@@ -95,8 +98,8 @@ public class App {
             System.out.println("Up: " + camera.up);
             System.out.println("Position: " + player.getPosition());
 
-            System.out.println("Bean velocity: " + mainScene.getObjectByName("Bean").rigidBody.velocity);
-            System.out.println("Bean acceleration: " + mainScene.getObjectByName("Bean").rigidBody.acceleration);
+            System.out.println("Cube3 velocity: " + mainScene.getObjectByName("Cube3").rigidBody.velocity);
+            System.out.println("Cube3 acceleration: " + mainScene.getObjectByName("Cube3").rigidBody.acceleration);
             debounce = 0.2f;
         }
 
@@ -111,7 +114,7 @@ public class App {
         runTime += delta;
 
         GL11.glClearColor(mainScene.backgroundColor.r, mainScene.backgroundColor.g, mainScene.backgroundColor.b, 1.0f);
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
         for (Object3D obj : mainScene.objects) {
             if (obj.visible) {

@@ -1,13 +1,13 @@
 package testproj;
 
 public class Physics {
-    public static Vector3 gravity = new Vector3(0.0f, -29.4f, 0.0f);
+    public static Vector3 gravity = new Vector3(0.0f, -9.8f, 0.0f);
     public static boolean paused = false;
 
     public static void update (float delta) {
         if (paused) return;
-        
-        findColliding();
+
+        checkForCollisions();
         applyForces();
 
         for (RigidBody body : RigidBody.rigidBodies) {
@@ -17,17 +17,17 @@ public class Physics {
             body.velocity = body.velocity.add(body.acceleration.multiply(delta));
 
             if (body.anchored) {
-                body.velocity = Vector3.ZERO;
+                body.velocity = Vector3.ZERO.copy();
             } else {
                 body.position = body.position.add(body.velocity.multiply(delta));
             }
             
-            body.object.position = body.position;
             body.collider.position = body.position;
+            body.object.position = body.position;
         }
     }
 
-    public static void findColliding () {
+    public static void checkForCollisions () {
         for (RigidBody body : RigidBody.rigidBodies) {
             body.checkCollisions(RigidBody.rigidBodies);
         }
@@ -35,11 +35,10 @@ public class Physics {
 
     public static void applyForces () {
         for (RigidBody body : RigidBody.rigidBodies) {
-            if (!body.anchored) {
-                for (RigidBody other : body.collidingBodies) {
-                    Vector3 normal = body.position.subtract(other.position).normalize();
-                    body.acceleration = body.acceleration.add(normal.multiply(body.acceleration.negate()));
-                }
+            if ((!body.active) || (body.anchored)) continue;
+
+            for (RigidBody collidingBody : body.collidingBodies) {
+                body.velocity = body.velocity.subtract(body.velocity.multiply((body.damping + 1.0f) * (body.mass / collidingBody.mass)));
             }
         }
     }
