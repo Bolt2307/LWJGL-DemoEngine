@@ -6,6 +6,7 @@ public class RigidBody {
     public static ArrayList<RigidBody> rigidBodies = new ArrayList<>();
     public ArrayList<RigidBody> collidingBodies = new ArrayList<>();
 
+    public Player player = null;
     public Object3D object;
     public BoxCollider collider;
     public boolean active = true;

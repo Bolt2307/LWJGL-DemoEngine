@@ -1,7 +1,7 @@
 package testproj;
 
 public class Physics {
-    public static Vector3 gravity = new Vector3(0.0f, -9.8f, 0.0f);
+    public static Vector3 gravity = new Vector3(0.0f, -98f, 0.0f);
     public static boolean paused = false;
 
     public static void update (float delta) {
@@ -21,9 +21,13 @@ public class Physics {
             } else {
                 body.position = body.position.add(body.velocity.multiply(delta));
             }
-            
-            body.collider.position = body.position;
-            body.object.position = body.position;
+
+            if (body.player == null) { 
+                body.collider.position = body.position;
+                body.object.position = body.position;
+            } else {
+                body.player.setPosition(body.position);
+            }
         }
     }
 
@@ -38,7 +42,7 @@ public class Physics {
             if ((!body.active) || (body.anchored)) continue;
 
             for (RigidBody collidingBody : body.collidingBodies) {
-                body.velocity = body.velocity.subtract(body.velocity.multiply((body.damping + 1.0f) * (body.mass / collidingBody.mass)));
+                body.velocity = body.velocity.subtract(body.velocity.add(collidingBody.velocity).multiply((body.damping + 1.0f) * (collidingBody.mass / body.mass)));
             }
         }
     }

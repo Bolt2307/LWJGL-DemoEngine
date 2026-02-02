@@ -95,16 +95,16 @@ public class Scene {
 
         this.objects.add(new Cube(
             "Ground",
-            new Vector3(-30.0f, -10.0f, -20.0f),
+            new Vector3(0.0f, -10.0f, 0.0f),
             new Vector3(0.0f, 0.0f, 0.0f),
-            new Vector3(10.0f, 1.0f, 10.0f),
+            new Vector3(100.0f, 1.0f, 100.0f),
             new Color3[] {
-                new Color3(0.5f, 0.5f, 0.5f),
-                new Color3(0.5f, 0.5f, 0.5f),
-                new Color3(0.5f, 0.5f, 0.5f),
-                new Color3(0.5f, 0.5f, 0.5f),
-                new Color3(0.5f, 0.5f, 0.5f),
-                new Color3(0.5f, 0.5f, 0.5f)
+                new Color3(0.0f, 0.5f, 0.0f),
+                new Color3(0.0f, 0.5f, 0.0f),
+                new Color3(0.0f, 0.5f, 0.0f),
+                new Color3(0.0f, 0.5f, 0.0f),
+                new Color3(0.0f, 0.5f, 0.0f),
+                new Color3(0.0f, 0.5f, 0.0f)
             },
             false
         ));

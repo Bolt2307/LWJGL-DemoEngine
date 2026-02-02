@@ -21,19 +21,10 @@ public class App {
         window = new Window();
         window.lockMouse(true);
         camera = new Camera(new Vector3(0.0f, 0.0f, -100.0f), 40.0f, window);
-        player = new Player(Vector3.ZERO.copy(), camera);
+        player = new Player(Vector3.ZERO.copy(), camera, new Vector3(0.0f, 1.0f, 0.0f), mainScene);
     }
 
     public static void renderFrame () {
-        /*renderQueue.sort((a, b) -> {
-            int cmp = Float.compare(b.zMax, a.zMax);
-            if (cmp != 0) return cmp;
-
-            float aAvg = (a.zMin + a.zMax) * 0.5f;
-            float bAvg = (b.zMin + b.zMax) * 0.5f;
-            return Float.compare(bAvg, aAvg);
-        });*/
-
         for (Face face : renderQueue) {
             renderFace(face.vertices, face.color);
         }
@@ -48,7 +39,7 @@ public class App {
         GL11.glBegin(GL11.GL_POLYGON);
 
         for (Vector3 vertex : vertices) {
-            GL11.glVertex3f(vertex.x, vertex.y, vertex.z/500.0f);
+            GL11.glVertex3f(vertex.x, vertex.y, vertex.z/camera.renderDistance);
         }
 
         GL11.glEnd();
