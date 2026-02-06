@@ -122,11 +122,16 @@ public class App {
         GL11.glClearColor(mainScene.backgroundColor.r, mainScene.backgroundColor.g, mainScene.backgroundColor.b, 1.0f);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
+        /*for (Face face : mainScene.skybox.faces) {
+            pushFaceToQueue(face, camera.position, Vector3.ZERO.copy(), mainScene.skybox.scale, true);
+        }*/
+
         for (Object3D obj : mainScene.objects) {
-            if (obj.visible) {
+            if ((obj.visible) && (obj.position.add(obj.scale.multiply(0.5f)).subtract(camera.position).magnitude() < camera.renderDistance)) {
                 for (Face face : obj.faces) {
                     pushFaceToQueue(face, obj.position, obj.rotation, obj.scale, obj.invertedMesh);
                 }

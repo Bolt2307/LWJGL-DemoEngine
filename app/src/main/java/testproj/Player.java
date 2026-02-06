@@ -52,6 +52,8 @@ public class Player {
                 camera.yaw += (x - cx) * SENSITIVITY;
                 camera.pitch -= (y - cy) * SENSITIVITY;
 
+                camera.pitch = Math.max(-89.0f, Math.min(89.0f, camera.pitch));
+
                 Vector2 rad = new Vector2((float)(camera.yaw * Math.PI / 180.0f), (float)(camera.pitch * Math.PI / 180.0f));
 
                 camera.forward = new Vector3((float)(Math.cos(rad.y) * Math.sin(rad.x)), (float)(Math.sin(rad.y)), (float)(Math.cos(rad.y) * Math.cos(rad.x))).normalize();
