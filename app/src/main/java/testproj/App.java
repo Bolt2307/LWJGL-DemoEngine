@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
+
 public class App {
     private static final ArrayList<Face> renderQueue = new ArrayList<>();
     private static Player player;
@@ -16,30 +17,42 @@ public class App {
     private static long lastTick = System.currentTimeMillis();
 
     public static void init () {
-        mainScene = new Scene(new Color3(1.0f, 1.0f, 1.0f));
-        mainScene.init();
         window = new Window();
         window.lockMouse(true);
+        mainScene = new Scene(new Color3(0.0f, 0.0f, 0.0f));
+        mainScene.init();
         camera = new Camera(new Vector3(0.0f, 0.0f, -100.0f), 40.0f, window);
         player = new Player(Vector3.ZERO.copy(), camera, new Vector3(0.0f, 1.0f, 0.0f), mainScene);
     }
 
     public static void renderFrame () {
         for (Face face : renderQueue) {
-            renderFace(face.vertices, face.color);
+            renderFace(face.vertices, face.color, face.texture, face.textured);
         }
 
         renderQueue.clear();
     }
 
-    public static void renderFace (Vector3[] vertices, Color3 color) {
+    public static void renderFace (Vector3[] vertices, Color3 color, Texture texture, boolean textured) {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glLoadIdentity();
-        GL11.glColor4f(color.r, color.g, color.b, color.a);
-        GL11.glBegin(GL11.GL_POLYGON);
 
-        for (Vector3 vertex : vertices) {
-            GL11.glVertex3f(vertex.x, vertex.y, vertex.z/camera.renderDistance);
+        if ((textured) && (vertices.length == 4)) {
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+            for (int i = 0; i < vertices.length; i++) {
+                GL11.glTexCoord2f((i == 0 || i == 3) ? 0.0f : 1.0f, (i < 2) ? 0.0f : 1.0f);
+                GL11.glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z/camera.renderDistance);
+            }
+        } else {
+            GL11.glBegin(GL11.GL_POLYGON);
+            GL11.glColor4f(color.r, color.g, color.b, color.a);
+
+            for (Vector3 vertex : vertices) {
+                GL11.glVertex3f(vertex.x, vertex.y, vertex.z/camera.renderDistance);
+            }
         }
 
         GL11.glEnd();
@@ -66,7 +79,7 @@ public class App {
         float area = Helper.shoelace(projVertices);
 
         if (area * Helper.boolToInt(!inverted) > 0.0f) {
-            renderQueue.add(new Face(projVertices, face.color));
+            renderQueue.add(new Face(projVertices, face.color, face.texture, face.textured));
         }
     }
 
@@ -107,6 +120,8 @@ public class App {
 
         GL11.glClearColor(mainScene.backgroundColor.r, mainScene.backgroundColor.g, mainScene.backgroundColor.b, 1.0f);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
         for (Object3D obj : mainScene.objects) {

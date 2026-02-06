@@ -1,4 +1,4 @@
-package primitives.untextured;
+package primitives;
 
 import java.util.ArrayList;
 

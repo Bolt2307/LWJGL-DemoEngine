@@ -1,4 +1,4 @@
-package primitives.untextured;
+package primitives;
 
 import testproj.Color3;
 import testproj.Face;

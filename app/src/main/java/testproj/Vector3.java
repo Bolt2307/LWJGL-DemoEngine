@@ -108,10 +108,12 @@ public class Vector3 {
         return this.multiply(cos).add(axis.cross(this).multiply(sin)).add(axis.multiply(axis.dot(this) * (1 - cos)));
     }
 
-    public void lerp (Vector3 target, float t) {
-        this.x += (target.x - this.x) * t;
-        this.y += (target.y - this.y) * t;
-        this.z += (target.z - this.z) * t;
+    public Vector3 lerp (Vector3 target, float t) {
+        return new Vector3(
+            this.x + (target.x - this.x) * t,
+            this.y + (target.y - this.y) * t,
+            this.z + (target.z - this.z) * t
+        );
     }
 
     public Vector3 projectToCamera (Camera camera) {

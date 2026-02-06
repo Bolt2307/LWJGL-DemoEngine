@@ -2,7 +2,7 @@ package testproj;
 
 import org.lwjgl.glfw.GLFW;
 
-import primitives.untextured.Cube;
+import primitives.Cube;
 
 public class Player {
     public RigidBody rigidBody;

@@ -2,12 +2,12 @@ package testproj;
 
 import java.util.ArrayList;
 
-import primitives.untextured.Cube;
-import primitives.untextured.Cylinder;
-import primitives.untextured.Sphere;
-import primitives.untextured.SquareBipyramid;
-import primitives.untextured.SquarePyramid;
-import primitives.untextured.Wedge;
+import primitives.Cube;
+import primitives.Cylinder;
+import primitives.Sphere;
+import primitives.SquareBipyramid;
+import primitives.SquarePyramid;
+import primitives.Wedge;
 
 public class Scene {
     public Color3 backgroundColor;
@@ -30,6 +30,10 @@ public class Scene {
     }
 
     public void init () {
+
+        //========== Load Textures ==========
+
+        Texture.textureRef.add(new Texture("coconut.png"));
 
         //========== Create Scene Objects ==========
 
@@ -94,18 +98,17 @@ public class Scene {
         ));
 
         this.objects.add(new Cube(
-            "Ground",
-            new Vector3(0.0f, -10.0f, 0.0f),
+            "TexturedCube",
+            new Vector3(0.0f, 0.0f, -50.0f),
             new Vector3(0.0f, 0.0f, 0.0f),
-            new Vector3(100.0f, 1.0f, 100.0f),
-            new Color3[] {
-                new Color3(0.0f, 0.5f, 0.0f),
-                new Color3(0.0f, 0.5f, 0.0f),
-                new Color3(0.0f, 0.5f, 0.0f),
-                new Color3(0.0f, 0.5f, 0.0f),
-                new Color3(0.0f, 0.5f, 0.0f),
-                new Color3(0.0f, 0.5f, 0.0f)
-            },
+            new Vector3(5.0f, 5.0f, 5.0f),
+            new Texture[] {
+                Texture.textureRef.get(0).copy(),
+                Texture.textureRef.get(0).copy(),
+                Texture.textureRef.get(0).copy(),
+                Texture.textureRef.get(0).copy(),
+                Texture.textureRef.get(0).copy(),
+                Texture.textureRef.get(0).copy()},
             false
         ));
 
@@ -167,10 +170,5 @@ public class Scene {
             },
             false
         ));
-
-        //========== Create Scene RigidBodies ==========
-
-        new RigidBody(this.getObjectByName("Cube3"), false, true);
-        new RigidBody(this.getObjectByName("Ground"), true, true);
     }
 }
