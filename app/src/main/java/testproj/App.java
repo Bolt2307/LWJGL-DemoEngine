@@ -38,6 +38,7 @@ public class App {
         GL11.glLoadIdentity();
 
         if ((textured) && (vertices.length == 4)) {
+            texture.pushTexture();
             GL11.glEnable(GL11.GL_TEXTURE_2D);
             GL11.glBegin(GL11.GL_QUADS);
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
