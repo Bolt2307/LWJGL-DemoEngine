@@ -35,27 +35,6 @@ public class Scene {
         //========== Load Textures ==========
 
         Texture.textureRef.add(new Texture("notexture.png"));
-        Texture.textureRef.add(new Texture("coconut.png"));
-        Texture.textureRef.add(new Texture("coconutHighRes.png"));
-        Texture.textureRef.add(new Texture("obama.png"));
-
-        //========== Create Skybox ========== (Not Implemented Yet)
-
-        skybox = new Cube(
-            "Skybox",
-            Vector3.ZERO.copy(),
-            Vector3.ZERO.copy(),
-            new Vector3(1000.0f, 1000.0f, 1000.0f),
-            new Texture[] {
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy()
-            },
-            true
-        );
 
         //========== Create Scene Objects ==========
 
@@ -119,35 +98,6 @@ public class Scene {
             false
         ));
 
-        this.objects.add(new Cube(
-            "TexturedCube",
-            new Vector3(0.0f, 0.0f, -50.0f),
-            new Vector3(0.0f, 0.0f, 0.0f),
-            new Vector3(5.0f, 5.0f, 5.0f),
-            new Texture[] {
-                Texture.textureRef.get(2).copy(),
-                Texture.textureRef.get(2).copy(),
-                Texture.textureRef.get(2).copy(),
-                Texture.textureRef.get(2).copy(),
-                Texture.textureRef.get(2).copy(),
-                Texture.textureRef.get(2).copy()},
-            false
-        ));
-
-        this.objects.add(new SquarePyramid(
-            "Obamium",
-            new Vector3(-50.0f, 0.0f, -50.0f),
-            new Vector3(0.0f, 0.0f, 0.0f),
-            new Vector3(5.0f, 7.5f, 5.0f),
-            new Texture[] {
-                Texture.textureRef.get(3).copy(),
-                Texture.textureRef.get(3).copy(),
-                Texture.textureRef.get(3).copy(),
-                Texture.textureRef.get(3).copy(),
-                Texture.textureRef.get(3).copy()},
-            false
-        ));
-
         this.objects.add(new Wedge(
             "Wedge1",
             new Vector3(20.0f, 2.5f, 10.0f),
@@ -206,5 +156,13 @@ public class Scene {
             },
             false
         ));
+
+        //========== Add RigidBodies ==========
+
+        for (Object3D obj : this.objects) {
+            if (obj.rigidBody == null) {
+                obj.rigidBody = new RigidBody(obj, true, true);
+            }
+        }
     }
 }

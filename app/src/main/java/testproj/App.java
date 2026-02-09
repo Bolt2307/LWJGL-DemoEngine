@@ -92,23 +92,6 @@ public class App {
             debounce = 0.2f;
         }
 
-        if ((GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_Q) == GLFW.GLFW_PRESS) && (debounce <= 0.0f)) { // Debug info
-            Physics.paused = !Physics.paused;
-            debounce = 0.2f;
-        }
-
-        if ((GLFW.glfwGetKey(window.getWindow(), GLFW.GLFW_KEY_E) == GLFW.GLFW_PRESS) && (debounce <= 0.0f)) { // Debug info
-            System.out.println(camera);
-            System.out.println("Forward: " + camera.forward);
-            System.out.println("Right: " + camera.right);
-            System.out.println("Up: " + camera.up);
-            System.out.println("Position: " + player.getPosition());
-
-            System.out.println("Cube3 velocity: " + mainScene.getObjectByName("Cube3").rigidBody.velocity);
-            System.out.println("Cube3 acceleration: " + mainScene.getObjectByName("Cube3").rigidBody.acceleration);
-            debounce = 0.2f;
-        }
-
         mainScene.getObjectByName("Cube1").rotation = new Vector3((30.0f * runTime), (45.0f * runTime), (15.0f * runTime));
         mainScene.getObjectByName("Plumbob").rotation = new Vector3(0.0f, (float)(45.0f * runTime), 0.0f);
         mainScene.getObjectByName("Plumbob").position = new Vector3(10.0f, (float)(10.0f*Math.sin(runTime*2)), 60.0f);
@@ -125,10 +108,6 @@ public class App {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
-        /*for (Face face : mainScene.skybox.faces) {
-            pushFaceToQueue(face, camera.position, Vector3.ZERO.copy(), mainScene.skybox.scale, true);
-        }*/
 
         for (Object3D obj : mainScene.objects) {
             if ((obj.visible) && (obj.position.add(obj.scale.multiply(0.5f)).subtract(camera.position).magnitude() < camera.renderDistance)) {

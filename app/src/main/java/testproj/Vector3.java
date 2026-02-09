@@ -29,6 +29,30 @@ public class Vector3 {
         return new Vector3(this.x / mag, this.y / mag, this.z / mag);
     }
 
+    public Vector3 pushCardinal () {
+        float largest = -1;
+        Vector3 newVector = this.copy();
+
+        if (Math.abs(this.x) > largest) {
+            largest = this.x;
+            newVector = new Vector3(largest, 0, 0);
+        }
+        if (Math.abs(this.y) > largest) {
+            largest = this.y;
+            newVector = new Vector3(0, largest, 0);
+        }
+        if (Math.abs(this.z) > largest) {
+            largest = this.z;
+            newVector = new Vector3(0, 0, largest);
+        }
+
+        if (largest == 0) {
+            return Vector3.ZERO.copy();
+        }
+
+        return newVector;
+    }
+
     public Vector3 toRadians () {
         return new Vector3(
             (float)(this.x*Math.PI/180),

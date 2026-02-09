@@ -8,7 +8,7 @@ public class Physics {
         if (paused) return;
 
         checkForCollisions();
-        applyForces();
+        applyForces(delta);
 
         for (RigidBody body : RigidBody.rigidBodies) {
             if (!body.active) continue;
@@ -37,12 +37,12 @@ public class Physics {
         }
     }
 
-    public static void applyForces () {
+    public static void applyForces (float delta) {
         for (RigidBody body : RigidBody.rigidBodies) {
             if ((!body.active) || (body.anchored)) continue;
 
             for (RigidBody collidingBody : body.collidingBodies) {
-                body.velocity = body.velocity.subtract(body.velocity.add(collidingBody.velocity).multiply((body.damping + 1.0f) * (collidingBody.mass / body.mass)));
+                
             }
         }
     }

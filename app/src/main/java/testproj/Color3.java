@@ -27,4 +27,8 @@ public class Color3 {
         this.b = b;
         this.a = a;
     }
+
+    public Color3 multiply (float t) {
+        return new Color3(this.r * t, this.g * t, this.b * t, this.a);
+    }
 }
