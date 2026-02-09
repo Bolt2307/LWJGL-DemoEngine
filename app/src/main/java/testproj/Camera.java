@@ -1,6 +1,8 @@
 package testproj;
 
 public class Camera {
+    public final float NEAR_PLANE = 0.01f;
+
     public Vector3 position;
     public float fov;
     public float renderDistance;

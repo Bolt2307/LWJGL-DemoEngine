@@ -11,7 +11,6 @@ import primitives.Wedge;
 
 public class Scene {
     public Color3 backgroundColor;
-    public Object3D skybox;
     public ArrayList<Object3D> objects;
 
     public Scene (Color3 backgroundColor) {
@@ -38,24 +37,6 @@ public class Scene {
         Texture.textureRef.add(new Texture("coconut.png"));
         Texture.textureRef.add(new Texture("coconutHighRes.png"));
         Texture.textureRef.add(new Texture("obama.png"));
-
-        //========== Create Skybox ========== (Not Implemented Yet)
-
-        skybox = new Cube(
-            "Skybox",
-            Vector3.ZERO.copy(),
-            Vector3.ZERO.copy(),
-            new Vector3(1000.0f, 1000.0f, 1000.0f),
-            new Texture[] {
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy(),
-                Texture.textureRef.get(0).copy()
-            },
-            true
-        );
 
         //========== Create Scene Objects ==========
 
