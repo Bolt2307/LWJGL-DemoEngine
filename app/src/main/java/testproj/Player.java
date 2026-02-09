@@ -66,37 +66,37 @@ public class Player {
     }
 
     public void update (float delta) {
-        rigidBody.velocity = rigidBody.velocity.multiply(new Vector3(0.98f, 0.98f, 0.98f)); // Drag
+        rigidBody.velocity = rigidBody.velocity.subtract(rigidBody.velocity.multiply(5.0f*delta)); // Drag
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_W) == GLFW.GLFW_PRESS) {
-            rigidBody.velocity = rigidBody.velocity.add(camera.forward.multiply((float)(speed.z)));
+            rigidBody.velocity = rigidBody.velocity.add(camera.forward.multiply((float)(speed.z*delta)));
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_S) == GLFW.GLFW_PRESS) {
-            rigidBody.velocity = rigidBody.velocity.subtract(camera.forward.multiply((float)(speed.z)));
+            rigidBody.velocity = rigidBody.velocity.subtract(camera.forward.multiply((float)(speed.z*delta)));
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_A) == GLFW.GLFW_PRESS) {
-            rigidBody.velocity = rigidBody.velocity.add(camera.right.multiply((float)(speed.x)));
+            rigidBody.velocity = rigidBody.velocity.add(camera.right.multiply((float)(speed.x*delta)));
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_D) == GLFW.GLFW_PRESS) {
-            rigidBody.velocity = rigidBody.velocity.subtract(camera.right.multiply((float)(speed.x)));
+            rigidBody.velocity = rigidBody.velocity.subtract(camera.right.multiply((float)(speed.x*delta)));
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_LEFT_CONTROL) == GLFW.GLFW_PRESS) {
-            rigidBody.velocity = rigidBody.velocity.subtract(Vector3.Y_VECTOR.multiply(speed.y));
+            rigidBody.velocity = rigidBody.velocity.subtract(Vector3.Y_VECTOR.multiply(speed.y*delta));
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_SPACE) == GLFW.GLFW_PRESS) {
-            rigidBody.velocity = rigidBody.velocity.add(Vector3.Y_VECTOR.multiply(speed.y));
+            rigidBody.velocity = rigidBody.velocity.add(Vector3.Y_VECTOR.multiply(speed.y*delta));
         }
 
         if (GLFW.glfwGetKey(camera.window.getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS) {
-            speed = new Vector3(6.0f, 6.0f, 6.0f);
+            speed = new Vector3(600.0f, 600.0f, 600.0f);
             camera.fov = 38.0f;
         } else {
-            speed = new Vector3(2.0f, 2.0f, 2.0f);
+            speed = new Vector3(200.0f, 200.0f, 200.0f);
             camera.fov = 40.0f;
         }
     }

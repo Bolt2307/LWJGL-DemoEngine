@@ -19,7 +19,13 @@ public class Helper {
         return value ? 1 : -1;
     }
 
-    public static boolean checkBoxColliders () {
-        return false;   
-    }
+    private static Vector3 lerpToNear(Camera camera, Vector3 a, Vector3 b) {
+    float t = (camera.NEAR_PLANE - a.z) / (b.z - a.z);
+    return new Vector3(
+        a.x + (b.x - a.x) * t,
+        a.y + (b.y - a.y) * t,
+        camera.NEAR_PLANE
+    );
+}
+
 }
