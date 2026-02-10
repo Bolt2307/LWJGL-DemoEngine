@@ -3,7 +3,7 @@ package testproj;
 import java.util.ArrayList;
 
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 
 public class App {
     private static final ArrayList<Face> renderQueue = new ArrayList<>();
@@ -16,6 +16,9 @@ public class App {
     private static float runTime = 0.0f;
     private static long lastTick = System.currentTimeMillis();
 
+    private static int vao;
+    private static int shaderProgram;
+
     public static void init () {
         window = new Window();
         window.lockMouse(true);
@@ -23,6 +26,45 @@ public class App {
         mainScene.init();
         camera = new Camera(new Vector3(0.0f, 0.0f, -100.0f), 40.0f, window);
         player = new Player(Vector3.ZERO.copy(), camera, new Vector3(0.0f, 1.0f, 0.0f), mainScene);
+    }
+
+    public static int createShaderProgram() {
+        String vertexSrc =
+                "#version 330 core\n" +
+                "layout (location = 0) in vec3 aPos;\n" +
+                "layout (location = 1) in vec3 aColor;\n" +
+                "out vec3 vColor;\n" +
+                "uniform mat4 mvp;\n" +
+                "void main() {\n" +
+                "  vColor = aColor;\n" +
+                "  gl_Position = mvp * vec4(aPos, 1.0);\n" +
+                "}";
+
+        String fragmentSrc =
+                "#version 330 core\n" +
+                "in vec3 vColor;\n" +
+                "out vec4 FragColor;\n" +
+                "void main() {\n" +
+                "  FragColor = vec4(vColor, 1.0);\n" +
+                "}";
+
+        int vs = GL30.glCreateShader(GL30.GL_VERTEX_SHADER);
+        GL30.glShaderSource(vs, vertexSrc);
+        GL30.glCompileShader(vs);
+
+        int fs = GL30.glCreateShader(GL30.GL_FRAGMENT_SHADER);
+        GL30.glShaderSource(fs, fragmentSrc);
+        GL30.glCompileShader(fs);
+
+        int program = GL30.glCreateProgram();
+        GL30.glAttachShader(program, vs);
+        GL30.glAttachShader(program, fs);
+        GL30.glLinkProgram(program);
+
+        GL30.glDeleteShader(vs);
+        GL30.glDeleteShader(fs);
+
+        return program;
     }
 
     public static void renderFrame () {
@@ -34,32 +76,33 @@ public class App {
     }
 
     public static void renderFace (Vector3[] vertices, Color3 color, Texture texture, boolean textured) {
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        GL11.glLoadIdentity();
+        GL30.glMatrixMode(GL30.GL_MODELVIEW);
+        GL30.glLoadIdentity();
 
         if ((textured) && (vertices.length == 4)) {
             texture.pushTexture();
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            GL30.glEnable(GL30.GL_TEXTURE_2D);
+            GL30.glBegin(GL30.GL_QUADS);
+            GL30.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
             for (int i = 0; i < vertices.length; i++) {
-                GL11.glTexCoord2f((i == 0 || i == 3) ? 0.0f : 1.0f, (i < 2) ? 0.0f : 1.0f);
-                GL11.glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z/camera.renderDistance);
+                GL30.glTexCoord2f((i == 0 || i == 3) ? 0.0f : 1.0f, (i < 2) ? 0.0f : 1.0f);
+                GL30.glVertex3f(vertices[i].x, vertices[i].y, vertices[i].z/camera.renderDistance);
             }
         } else {
-            GL11.glBegin(GL11.GL_POLYGON);
-            GL11.glColor4f(color.r, color.g, color.b, color.a);
+            GL30.glBegin(GL30.GL_POLYGON);
+            GL30.glColor4f(color.r, color.g, color.b, color.a);
 
             for (Vector3 vertex : vertices) {
-                GL11.glVertex3f(vertex.x, vertex.y, vertex.z/camera.renderDistance);
+                GL30.glVertex3f(vertex.x, vertex.y, vertex.z/camera.renderDistance);
             }
         }
 
-        GL11.glEnd();
+        GL30.glEnd();
     }
 
     public static void pushFaceToQueue (Face face, Vector3 offset, Vector3 rotation, Vector3 scale, boolean inverted) {
+        Vector3[] relativeVertices = new Vector3[face.vertices.length];
         Vector3[] projVertices = new Vector3[face.vertices.length];
 
         for (int i = 0; i < face.vertices.length; i++) {
@@ -68,13 +111,13 @@ public class App {
             Vector3 translated = rotated.add(offset);
             Vector3 relative = translated.subtract(camera.position);
             Vector3 spun = new Vector3(relative.dot(camera.right), relative.dot(camera.up), relative.dot(camera.forward));
-            Vector3 projected = spun.projectToCamera(camera);
+            relativeVertices[i] = spun;
+        }
 
-            if (projected.z < 0.0f) {
-                return;
-            }
-
-            projVertices[i] = projected;
+        projVertices = camera.zClip(relativeVertices);
+        
+        for (int i = 0; i < projVertices.length; i++) {
+            projVertices[i] = projVertices[i].projectToCamera(camera);
         }
 
         float area = Helper.shoelace(projVertices);
@@ -102,12 +145,12 @@ public class App {
         lastTick = System.currentTimeMillis();
         runTime += delta;
 
-        GL11.glClearColor(mainScene.backgroundColor.r, mainScene.backgroundColor.g, mainScene.backgroundColor.b, 1.0f);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+        GL30.glClearColor(mainScene.backgroundColor.r, mainScene.backgroundColor.g, mainScene.backgroundColor.b, 1.0f);
+        GL30.glEnable(GL30.GL_DEPTH_TEST);
+        GL30.glEnable(GL30.GL_BLEND);
+        GL30.glDisable(GL30.GL_LIGHTING);
+        GL30.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
+        GL30.glClear(GL30.GL_COLOR_BUFFER_BIT | GL30.GL_DEPTH_BUFFER_BIT);
 
         for (Object3D obj : mainScene.objects) {
             if ((obj.visible) && (obj.position.add(obj.scale.multiply(0.5f)).subtract(camera.position).magnitude() < camera.renderDistance)) {
@@ -133,6 +176,8 @@ public class App {
             loop();
         }
 
+        GL30.glDeleteVertexArrays(vao);
+        GL30.glDeleteProgram(shaderProgram);
         window.stop();
     }
 }

@@ -30,7 +30,7 @@ public class Player {
     public Player (Vector3 position, Camera camera, Vector3 camOffset, Scene scene) {
         this.model = new Cube("Character", position, new Vector3(0.0f, 0.0f, 0.0f), new Vector3(1.0f, 2.0f, 1.0f), new Color3[]{Color3.RED, Color3.RED, Color3.RED, Color3.RED, Color3.RED, Color3.RED}, false);
         scene.objects.add(this.model);
-        this.model.visible = true;
+        this.model.visible = false;
         this.camera = camera;
         this.position = position;
         this.camOffset = camOffset;
